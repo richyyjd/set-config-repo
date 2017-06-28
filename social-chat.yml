@@ -2,10 +2,10 @@ spring:
   application:
     name: social-chat
   rabbitmq:
-    host: set-docker-dev-n2.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8881
 
@@ -43,10 +43,10 @@ logging.level.com.dharbor.set.social.common.notifications: DEBUG
 spring:
   profiles: dev
   rabbitmq:
-    host: set-docker-dev-n2.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 
 server:
   port: 8881
@@ -84,10 +84,10 @@ logging.level.com.dharbor.set.social.common.notifications: DEBUG
 spring:
   profiles: qa
   rabbitmq:
-    host: set-docker-qa-n1.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8881
 eureka:
@@ -121,10 +121,10 @@ spring:
 spring:
   profiles: dh-bo
   rabbitmq:
-    host: 172.16.4.39
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 
 server:
   port: 8881
@@ -159,10 +159,10 @@ logging.level.com.dharbor.set.social.common.notifications: DEBUG
 spring:
   profiles: devlocal
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 
 server:
   port: 8881
@@ -204,8 +204,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8881
 eureka:
