@@ -2,10 +2,10 @@ spring:
   application:
     name: social-notifications
   rabbitmq:
-    host: set-docker-dev-n2.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -83,10 +83,10 @@ notifications.registry:
 spring:
   profiles: dev
   rabbitmq:
-    host: set-docker-dev-n2.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -156,10 +156,10 @@ notifications.registry:
 spring:
   profiles: qa
   rabbitmq:
-    host: set-docker-qa-n1.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -224,10 +224,10 @@ spring:
 spring:
   profiles: dh-bo
   rabbitmq:
-    host: set-docker-dev-n2.digitalharbor.us
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -293,8 +293,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -373,10 +373,10 @@ notifications.registry:
 spring:
   profiles: armando
   rabbitmq:
-    host: 172.16.4.156
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -455,8 +455,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -534,10 +534,10 @@ notifications.registry:
 spring:
   profiles: devlocal
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -611,8 +611,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: richardmq
+    password: richardmq
 server:
   port: 8190
 eureka:
@@ -620,21 +620,30 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
     healthcheck:
           enabled: true
+
+
 # to avoid java.util.concurrent.TimeoutException on first hystrix execution
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
 spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
 spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
 spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
 spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
 spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
 spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
 cors:
   allowOrigin: '*'
+
+
 logging.level.com.dharbor.set.social.notifications: DEBUG
 logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
 spring.velocity:
   resourceLoaderPath: classpath:/templates/
   prefix:
@@ -643,6 +652,13 @@ spring.velocity:
   check-template-location: true
   content-type: text/html
   charset: UTF-8
+
+mailSender:
+  host: smtp.office365.com
+  port: 587
+  username: set.admin@dharbor.com
+  password: Caqa1261
+
 notifications.registry:
   clients:
     - code: SOCIAL_CHAT
@@ -659,11 +675,14 @@ notifications.registry:
         - code: ADD_PARTICIPANT
           endPoint: /social-chat/addParticipant
         - code: JOIN_TO_CONVERSATION
-          endPoint: /social-chat/participantJoinConversation
+          endPoint: /social-chat/acceptJoin
+        - code: PARTICIPANT_MEMBER_GUEST
+          endPoint: /social-chat/invitation
       templates:
+        - code: LOGGED_OFF_USER_NOTIFICATION
+          resource: /templates/social/chat/newChatMsgLoggedOffUser.vm
         - code: NEW_MSG
           resource: /templates/example.vm
         - code: CLOSE_MSG
           resource: /templates/example.vm
           
-
