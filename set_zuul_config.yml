@@ -1,0 +1,26 @@
+configuration:  
+  projectName: set_zuul_config
+
+server:
+  port: 9091
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+zuul:
+  #Service will be mapped under the /api URI
+  ignoredServices: '*'
+  prefix: /api
+  routes:
+    social-chat:
+      path: /social-chat/**
+      serviceId: SOCIAL-CHAT    
+    social-expl:
+      path: /social-expl/**
+      serviceId: SOCIAL-EXPLANATIONS
+    
+spring:
+  application:
+    name: zuul-server

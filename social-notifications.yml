@@ -1,0 +1,669 @@
+spring:
+  application:
+    name: social-notifications
+  rabbitmq:
+    host: set-docker-dev-n2.digitalharbor.us
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+          enabled: true
+
+#    host: set-docker-dev-n2.digitalharbor.us
+#    port: 5672
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+mailSender:
+  host: smtp.office365.com
+  port: 587
+  username: set.admin@dharbor.com
+  password: Caqa1261
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: LOGGED_OFF_USER_NOTIFICATION
+          resource: /templates/social/chat/newChatMsgLoggedOffUser.vm
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+
+# development Profile
+---
+spring:
+  profiles: dev
+  rabbitmq:
+    host: set-docker-dev-n2.digitalharbor.us
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+          
+
+
+# Qa Profile
+---
+spring:
+  profiles: qa
+  rabbitmq:
+    host: set-docker-qa-n1.digitalharbor.us
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+          enabled: true
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+cors:
+  allowOrigin: '*'
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+          
+
+# Production Profile
+---
+spring:
+  profiles: production
+
+# Production Profile
+---
+spring:
+  profiles: dh-bo
+  rabbitmq:
+    host: set-docker-dev-n2.digitalharbor.us
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+      templates:
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+# Thais Profile
+---
+spring:
+  profiles: thais
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+mailSender:
+  host: smtp.office365.com
+  port: 587
+  username: set.admin@dharbor.com
+  password: Caqa1261
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/acceptJoin
+        - code: PARTICIPANT_MEMBER_GUEST
+          endPoint: /social-chat/invitation
+      templates:
+        - code: LOGGED_OFF_USER_NOTIFICATION
+          resource: /templates/social/chat/newChatMsgLoggedOffUser.vm
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+          
+# Armando Profile
+---
+spring:
+  profiles: armando
+  rabbitmq:
+    host: 172.16.4.156
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+mailSender:
+  host: smtp.office365.com
+  port: 587
+  username: set.admin@dharbor.com
+  password: Caqa1261
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: LOGGED_OFF_USER_NOTIFICATION
+          resource: /templates/social/chat/newChatMsgLoggedOffUser.vm
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+
+# jhonny Profile
+---
+spring:
+  profiles: jhonny-dev
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+mailSender:
+  host: smtp.office365.com
+  port: 587
+  username: set.admin@dharbor.com
+  password: Caqa1261
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: LOGGED_OFF_USER_NOTIFICATION
+          resource: /templates/social/chat/newChatMsgLoggedOffUser.vm
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+
+
+# development Profile (local)
+---
+spring:
+  profiles: devlocal
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+          enabled: true
+
+
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+
+
+cors:
+  allowOrigin: '*'
+
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/acceptJoin
+        - code: PARTICIPANT_MEMBER_GUEST
+          endPoint: /social-chat/invitation
+      templates:
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+          
+
+# RICHARD dev Profile (local)
+# social-notifications
+---
+spring:
+  profiles: richard
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8190
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+          enabled: true
+# to avoid java.util.concurrent.TimeoutException on first hystrix execution
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+spring.cloud.stream.bindings.emailNotificationInput.destination: emailNotificationTopic
+spring.cloud.stream.bindings.emailNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.emailNotificationInput.group: emailNotificationGroup
+spring.cloud.stream.bindings.msgNotificationInput.destination: messageNotificationTopic
+spring.cloud.stream.bindings.msgNotificationInput.content-type: application/json
+spring.cloud.stream.bindings.msgNotificationInput.group: messageNotificationGroup
+cors:
+  allowOrigin: '*'
+logging.level.com.dharbor.set.social.notifications: DEBUG
+logging.level.com.dharbor.set.social.common.notifications: DEBUG
+spring.velocity:
+  resourceLoaderPath: classpath:/templates/
+  prefix:
+  suffix: .vm
+  cache: false
+  check-template-location: true
+  content-type: text/html
+  charset: UTF-8
+notifications.registry:
+  clients:
+    - code: SOCIAL_CHAT
+      description: Social Chat Service
+      actions:
+        - code: OPEN_CHAT_ROOM
+          endPoint: /social-chat/openChatRoom
+        - code: TEXT_MSG_CREATED
+          endPoint: /social-chat/textMsgCreated
+        - code: MSG_DELETED
+          endPoint: /social-chat/msgDeleted
+        - code: TEXT_MSG_UPDATED
+          endPoint: /social-chat/textMsgUpdated
+        - code: ADD_PARTICIPANT
+          endPoint: /social-chat/addParticipant
+        - code: JOIN_TO_CONVERSATION
+          endPoint: /social-chat/participantJoinConversation
+      templates:
+        - code: NEW_MSG
+          resource: /templates/example.vm
+        - code: CLOSE_MSG
+          resource: /templates/example.vm
+          
+

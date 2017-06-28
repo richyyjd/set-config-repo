@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: mock.security.identity
+  data:
+      mongodb:
+        host: localhost
+        port: 27017
+        uri: mongodb://localhost:27017/identity-db
+server:
+    port: 9990
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+      
+cors:   
+   allowOrigin: '*' 
+# Development
+---
+spring:
+  profiles: dev
+  data:
+      mongodb:
+        host: set-mongo-dev.digitalharbor.us
+        port: 27017
+        uri: mongodb://set-mongo-dev.digitalharbor.us:27017/identity-db
+server:
+    port: 9990
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+      enabled: true
+cors:   
+   allowOrigin: '*' 
+# Qa Profile
+---
+spring:
+  profiles: qa
+  data:
+      mongodb:
+        host: set-mongo-qa.digitalharbor.us
+        port: 27017
+        uri: mongodb://set-mongo-qa.digitalharbor.us:27017/identity-db
+server:
+    port: 9990
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+      enabled: true
+cors:   
+   allowOrigin: '*' 
+   
+# Production Profile
+---
+spring:
+  profiles: production
+  
+# Production Profile
+---
+spring:
+  profiles: dh-bo
+  data:
+      mongodb:
+        host: localhost
+        port: 27017
+        uri: mongodb://localhost:27017/identity-db
+server:
+    port: 9990
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+      enabled: true
+      
+cors:   
+   allowOrigin: '*'       
+
+# Development (local)
+---
+spring:
+  profiles: devlocal
+  data:
+      mongodb:
+        host: mongo
+        port: 27017
+        uri: mongodb://mongo:27017/identity-db
+server:
+    port: 9990
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    healthcheck:
+      enabled: true
+cors:   
+   allowOrigin: '*' 
